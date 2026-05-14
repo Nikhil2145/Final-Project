@@ -34,10 +34,35 @@ def get_fixed_dice(dice):
 
 print(roll_dice())
 
-dice = roll_dice()
 
 print(is_tuple_out([3, 3, 3]))
 print(is_tuple_out([1, 2, 3]))
 
 print(get_fixed_dice([2, 2, 5]))
 print(get_fixed_dice([4, 1, 4]))
+
+def take_turn(player_name):
+
+    print(f"\n It's {player_name}'s turn!")
+
+    dice = roll_dice()
+
+    print("You rolled a: " + str(dice))
+
+    if is_tuple_out(dice):
+        print("Tuple out! You scored 0 this turn.")
+        return 0
+
+        fixed = get_fixed_dice(dice)
+
+        while True: 
+
+            for i in range(3): 
+
+                label = "FIXED" if fixed[i] else "free"
+
+                print(f"Die {i + 1}: {dice[i]} ({label})")
+            
+            choice = input("Re-roll free dice? (yes/no): ")
+
+            
