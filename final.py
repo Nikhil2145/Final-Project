@@ -11,10 +11,10 @@ main()
 def roll_dice():
     return list(np.random.randint(1, 7, size = 3))
 
-def is_tuple_out():
+def is_tuple_out(dice):
     return dice[0] == dice[1] == dice[2]
 
-def get_fixed_dice():
+def get_fixed_dice(dice):
     
     fixed = [False, False, False]
 
@@ -35,3 +35,9 @@ def get_fixed_dice():
 print(roll_dice())
 
 dice = roll_dice()
+
+print(is_tuple_out([3, 3, 3]))
+print(is_tuple_out([1, 2, 3]))
+
+print(get_fixed_dice([2, 2, 5]))
+print(get_fixed_dice([4, 1, 4]))
