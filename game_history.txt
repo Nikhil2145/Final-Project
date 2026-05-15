@@ -1,1 +1,12 @@
 Winnerno,no,38,j,18
+Winner: jus,nik,8,jus,26
+Winner: nik,nik,27,jus,9
+Winner: Tie,no,31,no,31
+Winner: nik,nik,31,jus,18
+Winner: Tie,no,31,no,31
+Winner: Tie,no,30,no,30
+Winner: jus,nik,17,jus,28
+Winner: nik,nik,29,jus,22
+Winner: nik,nik,30,jus,16
+Winner: jus,nik,18,jus,28
+Winner: nik,nik,30,jus,17

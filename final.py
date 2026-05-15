@@ -1,8 +1,9 @@
-
 #import libraries
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-#main function which prompts users for names and begins game
 
 #creates random number generator for 3 dice with values from 1-6
 def roll_dice():
@@ -49,7 +50,7 @@ def take_turn(player_name):
 
         for i in range(3): 
 
-            label = "FIXED" if fixed[i] else "free"
+            label = "FIXED" if fixed[i] else "FREE"
 
             print(f"Die {i + 1}: {dice[i]} ({label})")
             
@@ -81,6 +82,7 @@ def take_turn(player_name):
     return score
 #creates game history file with winner and player scores
 def save_game(winner, player1, score1, player2, score2):
+    """Saves game history in a txt file."""
 
     with open("game_history.txt", "a") as f:
         f.write(
@@ -90,7 +92,37 @@ def save_game(winner, player1, score1, player2, score2):
             player2 + "," +
             str(score2) + "\n"
         )
+def show_chart():
+    """Show score chart from saved games."""
 
+    data = []
+
+    with open("game_history.txt", "r") as f:
+
+        for line in f:
+
+            parts = line.strip().split(",")
+
+            data.append({
+                "player": parts[1],
+                "score": int(parts[2])
+            })
+
+            data.append({
+                "player": parts[3],
+                "score": int(parts[4])
+            })
+
+    df = pd.DataFrame(data)
+
+    sns.barplot(data=df, x="player", y="score")
+
+    plt.title("Scores Across Games")
+
+    plt.show()
+
+#main function which prompts users for names and begins game
+#calculates winner and runs functions to write to CSV file and create chart
 def main():
     print("Welcome to Tuple Out!")
     player1 = input("Enter name for Player 1: ")
@@ -125,6 +157,7 @@ def main():
         winner = "Tie"
 
     print(f"\nGame Over! {winner} wins!")
-    save_game(winner,player1, scores[player1], player2, scores[player2])     
+    save_game(winner,player1, scores[player1], player2, scores[player2])
+    show_chart()    
 main()
 
