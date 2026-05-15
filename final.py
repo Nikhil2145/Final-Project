@@ -1,19 +1,26 @@
 #import libraries
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+def setup_file():
+    """Open history file up if not create and close it"""
+    if not os.path.exists("game_history.txt"):
+        open("game_history.txt", "w").close()
 
 #creates random number generator for 3 dice with values from 1-6
 def roll_dice():
+    """Creates dice with random number generator"""
     return list(np.random.randint(1, 7, size = 3))
 
 def is_tuple_out(dice):
+    """Checking if tuple out if all values are equal"""
     return dice[0] == dice[1] == dice[2]
 
 def get_fixed_dice(dice):
-    
+    """Changes dice to True if equal to each other and returns array"""
     fixed = [False, False, False]
 
     if dice[0] == dice[1]:
@@ -33,7 +40,7 @@ def get_fixed_dice(dice):
 #starts player turn and gives them results
 #prompts the user after if they want to roll again
 def take_turn(player_name):
-
+    """rolls dice and gives feedback based off of roll and offers re-roll"""
     print(f"\nIt's {player_name}'s turn!")
 
     dice = roll_dice()
@@ -47,12 +54,9 @@ def take_turn(player_name):
     fixed = get_fixed_dice(dice)
 
     while True: 
-
         for i in range(3): 
-
-            label = "FIXED" if fixed[i] else "FREE"
-
-            print(f"Die {i + 1}: {dice[i]} ({label})")
+            labels = ["FIXED" if f else "FREE" for f in fixed]
+            print(f"Die {i + 1}: {dice[i]} ({labels[i]})")
             
         choice = input("Re-roll free dice? (yes/no): ").strip().lower()
 
@@ -64,7 +68,7 @@ def take_turn(player_name):
                 if not fixed[i]:
                     dice[i] = np.random.randint(1, 7)
 
-            print("You rolled: " + str(dice))
+            print("You rolled: " )
 
             if is_tuple_out(dice):
                 print("Tuple out! You scored 0 this turn!")
@@ -86,7 +90,7 @@ def save_game(winner, player1, score1, player2, score2):
 
     with open("game_history.txt", "a") as f:
         f.write(
-            "Winner: " + winner + "," +
+            winner + "," +
             player1 + "," +
             str(score1) + "," +
             player2 + "," +
@@ -121,9 +125,25 @@ def show_chart():
 
     plt.show()
 
+def run_tests():
+    """Running tests to make sure triple match is detected and dice get locked"""
+    print("Running tests: ")
+
+    # TEST is_tuple_out
+    assert is_tuple_out([3, 3, 3]) == True
+    assert is_tuple_out([1, 2, 3]) == False
+    assert is_tuple_out([5, 5, 4]) == False
+
+    # TEST get_fixed_dice
+    assert get_fixed_dice([4, 4, 2]) == [True, True, False]
+    assert get_fixed_dice([1, 2, 3]) == [False, False, False]
+    assert get_fixed_dice([2, 2, 2]) == [True, True, True]
+
+    print("All tests passed!")
 #main function which prompts users for names and begins game
 #calculates winner and runs functions to write to CSV file and create chart
 def main():
+    setup_file()
     print("Welcome to Tuple Out!")
     player1 = input("Enter name for Player 1: ")
     player2 = input("Enter name for Player 2: ")
@@ -158,6 +178,7 @@ def main():
 
     print(f"\nGame Over! {winner} wins!")
     save_game(winner,player1, scores[player1], player2, scores[player2])
-    show_chart()    
+    show_chart()
+run_tests()   
 main()
 
