@@ -3,42 +3,6 @@
 import numpy as np
 
 #main function which prompts users for names and begins game
-def main():
-    print("Welcome to Tuple Out!")
-    player1 = input("Enter name for Player 1: ")
-    player2 = input("Enter name for Player 2: ")
-    print(f"\nOk {player1} and {player2}, let's begin!")
-
-    scores = {player1: 0, player2: 0}
-
-    players = (player1, player2)
-
-    winning_score = 25
-
-    while scores[player1] < winning_score and scores[player2] < winning_score:
-
-        for player in players:
-
-            turn_score = take_turn(player)
-
-            scores[player] = scores[player] + turn_score
-
-            print(f"\nScores: {player1}: {scores[player1]} | {player2}: {scores[player2]}")
-
-            if scores[player] >= winning_score:
-                break
-    if scores[player1] > scores [player2]:
-        winner = player1
-
-    elif scores[player2] > scores [player1]:
-        winner = player2
-
-    else:
-        winner = "Tie"
-
-    print(f"\nGame Over! {winner} wins!")
-
-
 
 #creates random number generator for 3 dice with values from 1-6
 def roll_dice():
@@ -115,6 +79,52 @@ def take_turn(player_name):
     print(f"{player_name} scores {score} points!")
 
     return score
+#creates game history file with winner and player scores
+def save_game(winner, player1, score1, player2, score2):
 
+    with open("game_history.txt", "a") as f:
+        f.write(
+            "Winner: " + winner + "," +
+            player1 + "," +
+            str(score1) + "," +
+            player2 + "," +
+            str(score2) + "\n"
+        )
+
+def main():
+    print("Welcome to Tuple Out!")
+    player1 = input("Enter name for Player 1: ")
+    player2 = input("Enter name for Player 2: ")
+    print(f"\nOk {player1} and {player2}, let's begin!")
+
+    scores = {player1: 0, player2: 0}
+
+    players = (player1, player2)
+
+    winning_score = 25
+
+    while scores[player1] < winning_score and scores[player2] < winning_score:
+
+        for player in players:
+
+            turn_score = take_turn(player)
+
+            scores[player] = scores[player] + turn_score
+
+            print(f"\nScores: {player1}: {scores[player1]} | {player2}: {scores[player2]}")
+
+            if scores[player] >= winning_score:
+                break
+    if scores[player1] > scores [player2]:
+        winner = player1
+
+    elif scores[player2] > scores [player1]:
+        winner = player2
+
+    else:
+        winner = "Tie"
+
+    print(f"\nGame Over! {winner} wins!")
+    save_game(winner,player1, scores[player1], player2, scores[player2])     
 main()
 
