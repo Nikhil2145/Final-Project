@@ -1,13 +1,17 @@
+
+#import libraries
 import numpy as np
 
+#main function which prompts users for names and begins game
 def main():
     print("Welcome to Tuple Out!")
     player1 = input("Enter name for Player 1: ")
     player2 = input("Enter name for Player 2: ")
     print(f"\nOk {player1} and {player2}, let's begin!")
 
-main()
 
+
+#creates random number generator for 3 dice with values from 1-6
 def roll_dice():
     return list(np.random.randint(1, 7, size = 3))
 
@@ -32,37 +36,55 @@ def get_fixed_dice(dice):
     
     return fixed
 
-print(roll_dice())
-
-
-print(is_tuple_out([3, 3, 3]))
-print(is_tuple_out([1, 2, 3]))
-
-print(get_fixed_dice([2, 2, 5]))
-print(get_fixed_dice([4, 1, 4]))
 
 def take_turn(player_name):
 
-    print(f"\n It's {player_name}'s turn!")
+    print(f"\nIt's {player_name}'s turn!")
 
     dice = roll_dice()
 
-    print("You rolled a: " + str(dice))
+    print("You rolled: " + str(dice))
 
     if is_tuple_out(dice):
         print("Tuple out! You scored 0 this turn.")
         return 0
 
-        fixed = get_fixed_dice(dice)
+    fixed = get_fixed_dice(dice)
 
-        while True: 
+    while True: 
 
-            for i in range(3): 
+        for i in range(3): 
 
-                label = "FIXED" if fixed[i] else "free"
+            label = "FIXED" if fixed[i] else "free"
 
-                print(f"Die {i + 1}: {dice[i]} ({label})")
+            print(f"Die {i + 1}: {dice[i]} ({label})")
             
-            choice = input("Re-roll free dice? (yes/no): ")
+        choice = input("Re-roll free dice? (yes/no): ").strip().lower()
 
-            
+        if choice == "no":
+            break
+
+        elif choice == "yes":
+            for i in range(3):
+                if not fixed[i]:
+                    dice[i] = np.random.randint(1, 7)
+
+            print("You rolled: " + str(dice))
+
+            if is_tuple_out(dice):
+                print("Tuple out! You scored 0 this turn!")
+                return 0
+                
+            fixed = get_fixed_dice(dice)
+
+        else:
+            print("Please enter yes or no.")
+
+    score = sum(dice)
+        
+    print(f"{player_name} scores {score} points!")
+
+    return score
+
+main()
+take_turn("Player 1")
