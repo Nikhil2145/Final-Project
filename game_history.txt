@@ -10,3 +10,5 @@ nik,nik,25,jus,10
 nik,nik,33,jus,20
 jus,nik,23,jus,33
 jus,nik,18,jus,25
+jus,nik,18,jus,36
+nik,nik,30,jus,20

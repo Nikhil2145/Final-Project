@@ -18,31 +18,39 @@ The file is ran in final.py and it prompts the users for their names.
 
  ## Key logic:
 
- Refactored Design: File reading and counting is abstracted into wc_tools.py 
- to make sure of code reusability.
+The game loops between two players until one player reaches 25 points.
 
-It automatically identifies whether you have given a single file 
-or a directory and adjusts its processing.
+For each turn:
+three dice are rolled and matching dice are FIXED
+the player may continue to roll free dice until they want to stop
+or it matches other fixed dice.
 
+Game results are saved after the match and is turned into a graph
+displaying scores across games 
 
  ## Validation: 
 
-The code only allows for a one or two-word phrase.
+The code only allows for a yes or no response when asked to reroll.
+Invalid responses prompts the user to respond again.
 
 ## Key Features
 
-Uses a custom "import" in order to handle large amounts of code.
+Uses a random number generator to simulate three 6-faced dice being rolled.
 
-Generates a wordcount_results.csv file with the search term, location, 
-filename, and count for every file that is processed.
+Generates a game_history.txt file if it does not exist and adds
+winner and player names and scores. Reads the saved data for graphing
 
-Uses try/except blocks and while loops to ensure that the program
-doesn't crash if the user enters an invalid path.
+Data visualization: uses pandas, seaborn, matplotlib
+to generate a bar graph showing players and their scores across games.
 
-Uses dictionaries to store results for easy access.
+Uses dictionaries to store results for easy access and track player's scores
+throughout the game.
 
-The count_word_in_file has a tuple with the count and search term used to 
-store variables in a single item.
+Automated testing through assert statements to check
+Tuple Out detection and fixed dice logic.
+
+Fixed dice system where dice that match up become locked
+and aren't able to be rolled again for the user's turn.
 
 
 ## How to run
@@ -52,8 +60,5 @@ Open a terminal and find the project folder, then run:
 
  ## Issues/Bugs
 
- Words that have punctuation following them such as "bug!" or "bug," would be 
- treated differently.
+Very large game_history text files will be crowded and hard to decipher.
 
- Only files in the top-level of the directory are processed, meaning
- subdirectories aren't searched.

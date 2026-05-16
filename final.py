@@ -104,18 +104,24 @@ def show_chart():
     with open("game_history.txt", "r") as f:
 
         for line in f:
+            try:
+            
+                parts = line.strip().split(",")
 
-            parts = line.strip().split(",")
+                data.append({
+                    "player": parts[1],
+                    "score": int(parts[2])
+                })
 
-            data.append({
-                "player": parts[1],
-                "score": int(parts[2])
+                data.append({
+                    "player": parts[3],
+                    "score": int(parts[4])
             })
-
-            data.append({
-                "player": parts[3],
-                "score": int(parts[4])
-            })
+            except (IndexError, ValueError):
+                print("Skipping incorrect line in history file.")
+    if not data:
+        print("No valid game history is available.")
+        return
 
     df = pd.DataFrame(data)
 
@@ -130,9 +136,9 @@ def run_tests():
     print("Running tests: ")
 
     # TEST is_tuple_out
-    assert is_tuple_out([3, 3, 3]) == True
-    assert is_tuple_out([1, 2, 3]) == False
-    assert is_tuple_out([5, 5, 4]) == False
+    assert is_tuple_out([3, 3, 3])
+    assert not is_tuple_out([1, 2, 3])
+    assert not is_tuple_out([5, 5, 4]) 
 
     # TEST get_fixed_dice
     assert get_fixed_dice([4, 4, 2]) == [True, True, False]
@@ -143,6 +149,7 @@ def run_tests():
 #main function which prompts users for names and begins game
 #calculates winner and runs functions to write to CSV file and create chart
 def main():
+    """Runs Tuple Out from start to finish."""
     setup_file()
     print("Welcome to Tuple Out!")
     player1 = input("Enter name for Player 1: ")
